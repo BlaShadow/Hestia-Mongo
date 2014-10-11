@@ -1,0 +1,48 @@
+<!-- Small boxes (Stat box) -->
+
+<ol class="breadcrumb">
+    <li ng-repeat="item in breadcrumbs">
+        <a ng-class="item.active? 'active':'notActive' " href="#">[[ item.value ]]</a>
+    </li>
+</ol>
+<div class="row" ng-init="getStast()">
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3>[[ stats.users ]]</h3>
+                <p>Users</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#/users" ng-click='hola(5)' class="small-box-footer">
+                View Users <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div><!-- ./col -->
+
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>[[ stats.servers ]]<sup style="font-size: 20px"></sup></h3>
+                <p>Servers</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="#/hosts" class="small-box-footer">
+                View Servers <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div><!-- ./col -->
+</div><!-- /.row -->
+
+<!-- top row -->
+<div class="row">
+    <div class="col-xs-12 connectedSortable">
+        
+    </div><!-- /.col -->
+</div>
+<!-- /.row -->

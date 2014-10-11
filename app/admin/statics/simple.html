@@ -1,0 +1,82 @@
+<!doctype html>
+
+<head>
+  <title>CodeMirror: Code Folding Demo</title>
+  <meta charset="utf-8"/>
+
+  <link rel="stylesheet" href="css/codemirror/codemirror.css">
+  <link rel="stylesheet" href="css/codemirror//theme/midnight.css">
+  <link rel="stylesheet" href="css/codemirror/theme/monokai.css">
+  <link rel="stylesheet" href="css/codemirror/theme/blackboard.css">
+
+  <script src="js/codemirror/codemirror.js"></script>
+
+  <link href="css/codemirror/foldgutter.css" rel="stylesheet" />
+
+  <script src="js/codemirror/foldgutter.js"></script>  
+  <script src="js/codemirror/foldcode.js"></script>
+  <script src="js/codemirror/brace-fold.js"></script> 
+
+  <script src="js/codemirror/active-line.js"></script>  
+  <script src="js/codemirror/javascript.js"></script>
+  <script src="js/codemirror/matchbrackets.js"></script>
+
+  <style type="text/css">
+    .CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}
+  </style>
+</head>
+
+<body>
+
+<article>
+  <h2>Code Folding Demo</h2>
+  <form>
+    
+    <div style="max-width: 50em; margin-bottom: 1em">JavaScript:<br>
+    <textarea id="code" name="code"></textarea></div>
+    
+    <div style="max-width: 50em; margin-bottom: 1em">HTML:<br>
+    <textarea id="code-html" name="code-html"></textarea></div>
+
+    <div style="max-width: 50em">Markdown:<br>
+    <textarea id="code-markdown" name="code"></textarea></div>
+
+  </form>
+  <script id="script">
+/*
+ * Demonstration of code folding
+ */
+window.onload = function() {
+  var er = {
+    "nice":3
+  }
+
+  var te = document.getElementById("code");
+  var sc = document.getElementById("script");
+
+  te.value = (sc.textContent || sc.innerText || sc.innerHTML).replace(/^\s*/, "");
+  sc.innerHTML = "";
+  
+  var te_html = document.getElementById("code-html");
+  te_html.value = document.documentElement.innerHTML;
+
+  var te_markdown = document.getElementById("code-markdown");
+  te_markdown.value = "# Foo\n## Bar\n\nblah blah\n\n## Baz\n\nblah blah\n\n# Quux\n\nblah blah\n"
+
+  window.editor = CodeMirror.fromTextArea(te, {
+    mode: "javascript",
+    lineNumbers: true,
+    lineWrapping: true,
+    matchBrackets: true,
+    styleActiveLine: true,
+    theme:"blackboard",
+    extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+    foldGutter: true,
+    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+  });
+
+  editor.foldCode(CodeMirror.Pos(13, 0));
+};
+  </script>
+</article>
+</body>

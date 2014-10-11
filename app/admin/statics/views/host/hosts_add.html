@@ -1,0 +1,53 @@
+<div>
+    <ol class="breadcrumb">
+        <li ng-repeat="item in breadcrumbs">
+            <a ng-class="item.active? 'active':'notActive' " href="#[[item.href]]">[[ item.value ]]</a>
+        </li>
+    </ol>
+	<div class="col-md-12">
+		<div class="box box-primary">
+	        <div class="box-header">
+	            <h3 class="box-title">Agregate New Host</h3>
+	        </div>
+	        
+	        <form role="form" name="host_add" ng-submit='save(host_add.$valid)'>
+	            <div class="box-body">
+	                <div class="form-group">
+	                    <label for="exampleInputEmail1">Host</label>
+	                    <div class="input-group input-group-sm">
+		                    <input type="text" class="form-control" ng-model='host.target' id="target" placeholder="127.0.0.1:27017" required>
+							<span class="input-group-btn">
+							    <button class="btn btn-info btn-flat" type="button">Ping</button>
+							</span>
+						</div>
+	                </div>
+	            </div>
+
+	            <div class="box-body">
+	                <div class="form-group">
+	                    <label>Port</label>
+	                    <input type="int" class="form-control" id="port" ng-model='host.port' placeholder="27017" required>
+	                </div>
+	            </div>
+
+	            <div class="box-body">
+	                <div class="form-group">
+	                    <label>User</label>
+	                    <input type="text" class="form-control" id="user" ng-model='host.user' placeholder="Root" required>
+	                </div>
+	            </div>
+
+	            <div class="box-body">
+	                <div class="form-group">
+	                    <label>Password</label>
+	                    <input type="password" class="form-control" id="password" ng-model='host.password' placeholder="Password" required>
+	                </div>
+	            </div>
+
+	            <div class="box-footer">
+	                <button type="submit" class="btn btn-primary" ng-disabled="host_add.$invalid">Save</button>
+	            </div>
+	        </form>
+	    </div>
+	</div>
+</div>

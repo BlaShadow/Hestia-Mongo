@@ -1,0 +1,40 @@
+<style type="text/css">
+	#table_container{
+		padding:15px;
+	}
+</style>
+<div>
+	
+	[[ message ]]
+
+    <ol class="breadcrumb">
+        <li ng-repeat="item in breadcrumbs">
+            <a ng-class="item.active? 'active':'notActive' " href="#[[item.href]]">[[ item.value ]]</a>
+        </li>
+    </ol>
+
+	<div>
+		<div class="box box-primary" ng-init='getConnections()'>
+	        <div class="box-header">
+	            <h3 class="box-title">Active Connections</h3>
+	        </div>
+
+	        <div id='table_container'>
+				<table class="table table-striped">
+  					<tr>
+  						<th>Host</th>
+  						<th>Port</th>
+  						<th>Created</th>
+  					</tr>	
+  					<tr ng-repeat="item in connections">
+  						<td>[[ item.host ]]</td>
+  						<td>[[ item.port ]]</td>
+  						<td>[[ item.created ]]</td>
+  					</tr>
+				</table>
+	        </div>
+
+	        <button class='btn btn-danger' ng-show='canFlushConnections()' ng-click='flushConnections()' style='margin:15px;'>Flush connections</button>
+	    </div>
+	</div>
+</div>	

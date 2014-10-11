@@ -1,0 +1,138 @@
+<div>
+    <ol class="breadcrumb">
+        <li ng-repeat="item in breadcrumbs">
+            <a ng-class="item.active? 'active':'notActive' " href="#[[item.href]]">[[ item.value ]]</a>
+        </li>
+    </ol>
+    
+	<div>
+		<div class="box" ng-init="getDatabseInfo()">
+            <div class="box-header">
+                <h3 class="box-title">DataBase Info - [[ DBName ]]</h3>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-success btn-sm " title="New Collection"  data-toggle="modal" data-target="#index-view-modal"><i class="fa fa-plus"></i></button>
+                </div>
+            </div>
+            <div style="padding:collection">
+
+                <div>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Name</th>
+                            <td>[[ dbInfo.name ]]</td>
+                            <th>Collections</th>
+                            <td>[[ dbInfo.stats.collections ]]</td>
+                        </tr>
+                        <tr>
+                            <th>Storage Size</th>
+                            <td>[[ dbInfo.stats.storageSize ]]</td>
+                            <th>AvgObjSize</th>
+                            <td>[[ dbInfo.stats.avgObjSize ]]</td>
+                        </tr>
+                        <tr>
+                            <th>OK</th>
+                            <td>[[ dbInfo.stats.ok ]]</td>
+                            <th>Total index size</th>
+                            <td>[[ dbInfo.stats.indexSize ]]</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+
+                        <div>
+                            <a ng-click="collapse('#databaseInfo')" href="">Show all</a>
+                        </div>
+
+                        <div style="clear:both"></div>
+                    </h4>
+                </div>
+
+
+                <div id="databaseInfo" class="panel-collapse collapse">
+                    <div class="panel-body">
+<pre>
+[[ pretty(dbInfo) ]]
+</pre>
+                    </div>
+                </div>
+            </div>
+	    </div>
+	</div>
+
+	<div class="">
+		<div class="box" ng-init='getCollections()'>
+            <div class="box-header">
+                <h3 class="box-title">Collections</h3>
+                <div class="box-tools">
+                    <div class="input-group">
+                        
+                        <input type="text" ng-model='q' class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
+
+                        <div class="input-group-btn">
+                            <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <tr>
+                        <th>Name</th>
+                        <th>Storage Size</th>
+                        <th>Documents</th>
+                        <th>Ok</th>
+                    </tr>
+
+                    <tr ng-repeat="item in collections | filter:q">
+                        <td> 
+                        	<a href="#/hosts/[[ hostID ]]/database/[[ DBName ]]/collection/[[item.name]]">
+                        		[[ item.name ]]
+                        	</a>
+                        </td>
+                        <td>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="[[ (item.stats.storageSize / totalSize) * 100.0 ]]" aria-valuemin="0" aria-valuemax="100" style="width: [[ (item.stats.storageSize / totalSize) * 100.0 ]]%;">
+                                    [[ (item.stats.storageSize / totalSize) * 100.0 ]] % ( [[ item.stats.storageSize ]] )
+                                </div> 
+                            </div> 
+                        </td>
+                        <td>
+                        	[[ item.stats.count ]]
+                        </td>
+                        <td>
+                        	[[ item.stats.ok ]]
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+	</div>
+</div>
+
+
+<!-- create collection modal -->
+<div class="modal fade" id="index-view-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-file-code-o"></i>Document</h4>
+            </div>
+            <div id="modal-content-source">
+                <form class="form-inline" role="form" style="text-align:center;padding:10px;">
+                    <div class="element">
+                        <input ng-model="collectionNameCreate" type="text" class="form-control" placeholder="Collection Name">
+                    </div>
+                </form>
+                <div class="alert alert-danger" role="alert">[[ messageError ]]</div>
+            </div>
+            <div class="modal-footer clearfix">
+                <button class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Discard</button>
+                <button class="btn btn-primary pull-left" ng-click="createCollection()"><i class="fa fa-save"></i>Create</button>
+            </div>
+        </div>
+    </div>
+</div>

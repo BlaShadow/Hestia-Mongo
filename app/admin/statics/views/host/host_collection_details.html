@@ -1,0 +1,319 @@
+
+<link rel="stylesheet" href="/css/codemirror/codemirror.css">
+<link rel="stylesheet" href="/css/codemirror//theme/midnight.css">
+<link rel="stylesheet" href="/css/codemirror/theme/monokai.css">
+<link rel="stylesheet" href="/css/codemirror/theme/blackboard.css">
+<link rel="stylesheet" href="/css/codemirror/lint.css">
+
+<script src="/js/vendors/codemirror/codemirror.js"></script>
+<script src="/js/vendors/codemirror/active-line.js"></script>  
+<script src="/js/vendors/codemirror/javascript.js"></script>
+<script src="/js/vendors/codemirror/matchbrackets.js"></script>
+
+<script src="/js/vendors/codemirror/jsonlint.js"></script>
+<script src="/js/vendors/codemirror/lint.js"></script>
+<script src="/js/vendors/codemirror/json-lint.js"></script>
+
+<style type="text/css">
+	.documentContainer{
+		margin: 15px;
+		height: 100px;
+		overflow: hidden;
+	}
+
+	.documentDetails{
+		width: 80%;
+		margin: auto;
+		border:0;
+	}
+
+	#pager_container{
+		width: 100%;
+		text-align: center;
+	}
+
+	#pagination{
+		margin: auto;
+	}
+
+	.element{
+		margin: 10px;
+	}
+</style>
+<div ng-init="loadData('',1)">
+	<ol class="breadcrumb">
+	    <li ng-repeat="item in breadcrumbs" ng-class="{'active':item.active}" >
+	        <a href="#[[item.href]]">[[ item.value ]]</a>
+	    </li>
+	</ol>
+
+	<div>
+		<div class="box">
+			<div class="box-header">
+				<h3 class="box-title">Collection Info</h3>
+				<div class="pull-right box-tools">
+					<button class="btn btn-success btn-sm " data-toggle="modal" title="New Document" data-toggle="tooltip" ng-click="create('#document-create-modal')"><i class="fa fa-plus"></i></button>
+					<button class="btn btn-primary btn-sm refresh-btn" ng-click="reload"><i class="fa fa-refresh" ></i></button>
+					<button class="btn btn-danger btn-sm remove-btn" ng-click="deleteCollection()"><i class="fa fa-minus"></i></button>
+				</div>
+			</div>
+				
+			<div style="padding:10px" ng-init='getCollectionInfo()'>
+
+				<div>
+					<table class="table table-striped">
+					  	<tr>
+						  	<th>Name</th>
+						  	<td>[[ collectionInfo.name ]]</td>
+						  	<th>Count</th>
+						  	<td>[[ collectionInfo.stats.count ]]</td>
+					  	</tr>
+					  	<tr>
+						  	<th>Storage Size</th>
+						  	<td>[[ collectionInfo.stats.storageSize ]]</td>
+						  	<th>AvgObjSize</th>
+						  	<td>[[ collectionInfo.stats.avgObjSize ]]</td>
+					  	</tr>
+					  	<tr>
+						  	<th>N. Indexes</th>
+						  	<td>[[ collectionInfo.stats.nindexes ]]</td>
+						  	<th>Total index size</th>
+						  	<td>[[ collectionInfo.stats.totalIndexSize ]]</td>
+					  	</tr>
+					</table>
+				</div>
+
+				<div class="panel-heading">
+					<h4 class="panel-title">
+
+						<div>
+							<a ng-click="collapseIndex('#collectionInfo')" href="">Show all</a>
+						</div>
+
+						<div style="clear:both"></div>
+					</h4>
+				</div>
+
+				<div id="collectionInfo" class="panel-collapse collapse">
+					<div class="panel-body">
+<pre class="collectionInfo">
+[[ pretty(collectionInfo) ]]
+</pre>
+					</div>
+				</div>
+<!-- 				<button class="btn btn-danger pull-right" ng-click="deleteCollection()">Delete Collection</button>
+				<div style='clear:both'></div> -->
+			</div>				
+		</div>
+
+		<div class="box" ng-if="collectionInfo.indexes.length > 0">
+			<div class="box-header">
+				<h3 class="box-title">Indexs</h3>
+				<div class="box-tools">
+					
+				</div>
+			</div>
+
+			<div class="panel-group" id="accordion" style="padding:10px">
+				
+				<button class="btn btn-primary" style="margin:0 0 10px" data-toggle="modal" data-target="#index-view-modal">Create Index</button>
+
+				<div class="panel panel-default" ng-repeat="item in collectionInfo.indexes">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<div>
+								<a data-toggle="collapse" data-parent="#accordion" ng-click="collapseIndex('#collapseElement'+[[$index]])">
+								  	[[ item.name]]
+								</a>
+								<div class="pull-right box-tools">
+									<button class="btn btn-danger btn-sm" ng-click="removeIndex(item.name)" data-widget='remove' data-toggle="tooltip" title="Remove Index"><i class="fa fa-times"></i></button>
+								</div>
+								<div style="clear:both"></div>
+							</div>
+						</h4>
+					</div>
+					<div id="collapseElement[[$index]]" class="panel-collapse collapse">
+						  <div class="panel-body">
+<pre>
+[[ pretty(item.index) ]]
+</pre>						  	
+						  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+	<div>
+		<div class="box">
+			<div class="box-header">
+				<h3 class="box-title">Documents</h3>
+				<div class="box-tools">
+					<div class="input-group">
+						<input type="text" ng-model='q' ng-keydown='search($event)' class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search by id or key:value"/>
+						<div class="input-group-btn">
+							<button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+						</div>
+					</div>
+				</div>
+			</div><!-- /.box-header -->
+			
+			<div class="box-body table-responsive no-padding">
+				
+			<div id="pager_container">
+				<ul class="pagination pagination-lg" id="pager">
+
+					<!-- class="disabled" -->
+
+					<li>
+						<a ng-click="paginationPageLoad(1)">&laquo;</a>
+					</li>
+					
+					<li ng-repeat="item in getPages()" ng-class='{active:actual(item)}'>
+						<a ng-click="paginationPageLoad(item)">[[ item ]]</a>
+					</li>
+
+					<li>
+						<a ng-click="paginationPageLoad('last')">&raquo;</a>
+					</li>
+
+				</ul>
+			</div>    
+
+				<div ng-Repeat="item in collectionDocuments | filter:q" class="documentContainer" repeat-done="paintCodeMirror">
+<p>                    
+<textarea class='documentDetails'>
+[[ pretty(item) ]]
+</textarea>
+</p>
+				</div>
+
+				<div id="pager_container" ng-if="collectionDocuments.length > 4">
+					<ul class="pagination pagination-lg" id="pager">
+
+						<!-- class="disabled" -->
+
+						<li>
+							<a ng-click="paginationPageLoad(1)">&laquo;</a>
+						</li>
+
+						<li ng-repeat="item in getPages()" ng-class='{active:actual(item)}'>
+							<a ng-click="paginationPageLoad(item)">[[ item ]]</a>
+						</li>
+
+						<li>
+							<a ng-click="paginationPageLoad('last')">&raquo;</a>
+						</li>
+
+					</ul>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- COMPOSE MESSAGE MODAL -->
+<div class="modal fade" id="document-view-modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"><i class="fa fa-file-code-o"></i>Document</h4>
+			</div>
+
+			<div id="moda-content-source">
+			</div>
+
+			<div class="modal-footer clearfix">
+
+				<button class="btn btn-danger" ng-click="deleteDocument()"><i class="fa fa-times"></i> Delete</button>
+
+				<button class="btn btn-primary pull-left" ng-click="update()"><i class="fa fa-save"></i> Update</button>
+
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- create document modal -->
+<div class="modal fade" id="document-create-modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"><i class="fa fa-file-code-o"></i>Create Document</h4>
+			</div>
+
+			<div id="modal-create-content-source">
+			</div>
+
+			<div class="modal-footer clearfix">
+
+				<button class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Discard</button>
+
+				<button class="btn btn-primary pull-left" ng-click="createDocument()"><i class="fa fa-save"></i>Create</button>
+
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+
+<!-- create Index modal -->
+<div class="modal fade" id="index-view-modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"><i class="fa fa-file-code-o"></i>Create index</h4>
+			</div>
+
+			<div id="modal-content-source">
+
+				<form class="form-inline" role="form">
+					<div class="element" ng-repeat="item in newIndexesModel.elements">
+						
+						<button class="btn btn-danger btn-sm" ng-click="removeElement($index)" data-widget='collapse' data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+						<div class="form-group">
+								<label class="sr-only">Field</label>
+								<input ng-model="newIndexesModel.elements[$index].field" type="text" value="newIndexesModel[$index].field" class="form-control" placeholder="Enter email">
+						</div>
+
+						<div class="form-group">
+							<label class="sr-only">Field</label>
+							<select ng-model="newIndexesModel.elements[$index].type">
+								<option value=-1>DESCENDING</option>
+								<option value=1>ASCENDING</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" ng-model="newIndexesModel.unique"> Unique
+						</label>
+					</div>
+
+				</form>
+
+				<button class="btn btn-success" ng-click="newElement()"><i class="fa fa-plus"></i></button>
+			</div>
+
+			<div class="modal-footer clearfix">
+
+				<button class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Discard</button>
+
+				<button class="btn btn-primary pull-left" ng-click="createIndex()"><i class="fa fa-save"></i>Create</button>
+
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+

@@ -1,0 +1,43 @@
+<div>
+    <ol class="breadcrumb">
+        <li ng-repeat="item in breadcrumbs">
+            <a ng-class="item.active? 'active':'notActive' " href="#[[item.href]]">[[ item.value ]]</a>
+        </li>
+    </ol>
+</div>
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Hosts</h3>
+        <div class="box-tools">
+            
+        </div>
+    </div>
+    <div style="padding:10px" ng-init="getHosts()">
+        <table class="table table-bordered">
+            <tr>
+                <th style="width: 10px">#</th>
+                <th>HOST</th>
+                <th>PORT</th>
+                <th>USER ROOT</th>
+                <th style="width: 40px">Created</th>
+                <th>USER ROOT</th>
+            </tr>
+
+            <tr ng-repeat='item in hosts | filter:q'>
+                <td> [[ item.id ]] </td>
+                <td> <a href="#/hosts/[[ item.id ]]/view">  [[ item.target ]] </a> </td>
+                <td>[[ item.port ]]</td>
+                <td>[[ item.user ]]</td>
+                <td>
+                    <span class="badge bg-red">[[ item.created ]]</span>
+                </td>
+                <td> 
+                    <a href="#/hosts/[[ item.id ]]/view">Details</a> 
+                </td>
+            </tr>
+        </table>
+
+        <a href="#/hosts/add/" class='btn btn-primary'>Create New</a>
+    </div>
+</div>

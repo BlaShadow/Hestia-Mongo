@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#virtual enviroment directory
+VENDIR=/var/www/hestia
+
+#Flask app dir
+FLASKMAIN=/var/www/hestia/source
+
+#numbers of workers ( Number of core * 2 + 1 )
+
+WORKERS=3
+
+#User 
+USER=root
+
+echo "Staring server"
+
+#activate virtual enviroment
+cd $VENDIR
+
+source bin/activate
+
+cd $FLASKMAIN
+
+#start server
+gunicorn run:application -b 127.0.0.1:4444 --workers $WORKERS --user=$USER &

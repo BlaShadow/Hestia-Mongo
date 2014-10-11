@@ -1,0 +1,6 @@
+*.pyc 
+
+.DS_Store 
+app/admin/statics/js/min
+node_modules
+*.pyc

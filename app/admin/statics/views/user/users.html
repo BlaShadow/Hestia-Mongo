@@ -1,0 +1,38 @@
+<div>
+    <ol class="breadcrumb">
+        <li ng-repeat="item in breadcrumbs">
+            <a ng-class="item.active? 'active':'notActive' " href="#[[item.href]]">[[ item.value ]]</a>
+        </li>
+    </ol>
+
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Users</h3>
+            <div class="box-tools pull-right">
+                <button class="btn btn-success btn-sm " title="New User" ng-click='addUser()'><i class="fa fa-plus"></i></button>
+            </div>
+        </div>
+        <div style="padding:10px" ng-init='getUsers()'>
+            <table class="table table-bordered">
+                <tr>
+                    <th style="width: 10px">#</th>
+                    <th>User</th>
+                    <th>Created</th>
+                    <th></th>
+                </tr>
+
+                <tr ng-repeat='user in userList'>
+                    <td> [[ user.id ]] </td>
+                    <td> [[ user.user ]]</td>
+                    <td> 
+                        <span class="badge bg-red">[[ user.created ]]</span>
+                    </td>
+                    <td> 
+                        <a class="btn btn-danger btn-sm" href="#/user/delete/[[user.id]]">Delete</a> 
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>

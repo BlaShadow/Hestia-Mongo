@@ -1,0 +1,140 @@
+<style type="text/css">
+    
+    .element{
+        text-align:center;
+        padding:10px;
+    }
+
+    .element input{
+        width:90%;
+    }
+
+</style>
+
+<div>
+    <ol class="breadcrumb">
+        <li ng-repeat="item in breadcrumbs">
+            <a ng-class="item.active? 'active':'notActive' " href="#[[item.href]]">[[ item.value ]]</a>
+        </li>
+    </ol>
+
+	<div class="">
+		<div class="box box-primary">
+	        <div class="box-header">
+	            <h3 class="box-title">Host Info [[ hostname ]]</h3>
+                 <div class="pull-right box-tools">
+                    <button class="btn btn-success btn-sm " data-toggle="modal" title="New DataBase" data-toggle="tooltip" ng-click="showModal('#database-create-modal')"><i class="fa fa-plus"></i></button>
+                </div>
+	        </div>
+	        <div style="padding:10px">
+                <div>
+                    <table class="table table-striped" ng-init="getHostInfo()">
+                        <tr>
+                            <th>Name</th>
+                            <td>[[ info.host ]]</td>
+                            <th>Version</th>
+                            <td>[[ info.info.version ]]</td>
+                        </tr>
+                        <tr>
+                            <th>Is primary</th>
+                            <td>[[ info.is_primary ]]</td>
+                            <th>Is mongos</th>
+                            <td>[[ info.is_mongos ]]</td>
+                        </tr>
+                        <tr>
+                            <th>Max pool size</th>
+                            <td>[[ info.max_pool_sixe ]]</td>
+                            <th>Debug</th>
+                            <td>[[ info.info.debug ]]</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+
+                        <div>
+                            <a ng-click="collapse('#hostInfo')" href="">Show all</a>
+                        </div>
+
+                        <div style="clear:both"></div>
+                    </h4>
+                </div>
+
+                <div id="hostInfo" class="panel-collapse collapse">
+                    <div class="panel-body">                
+<pre>
+[[ pretty(info) ]]
+</pre>
+                    </div>
+                </div>
+            </div>
+	    </div>
+	</div>
+
+	<div class="">
+		<div class="box">
+            <div class="box-header">
+                <h3 class="box-title">DataBases</h3>
+                <div class="box-tools">
+                    <div class="input-group">
+                        <input type="text" ng-model='q' class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
+                        <div class="input-group-btn">
+                            <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover" ng-init='getDatabasesHost()'>
+                    <tr>
+                        <th>Name</th>
+                        <th>Data Size</th>
+                        <th>Storage Size</th>
+
+                        <th>Collections</th>
+                    </tr>
+
+                    <tr ng-repeat="item in databases | filter:q">
+                        <td> 
+                        	<a href="#/hosts/[[ hostID ]]/database/[[ item.name ]]">
+                        		[[ item.name ]]
+                        	</a>
+                        </td>
+                        <td> [[ item.stats.dataSize ]] </td>
+                        <td>
+                        	<span class="badge bg-red">[[ item.stats.storageSize ]]</span>
+                        </td>
+                        <td>[[ item.stats.collections ]]</td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+	</div>
+</div>
+
+<!-- create database modal -->
+<div class="modal fade" id="database-create-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-file-code-o"></i>Create index</h4>
+            </div>
+
+            <div id="modal-content-source" class='element'>
+                <input type='text' ng-model='dbName' placeholder='Database name'>
+            </div>
+
+            <div class="modal-footer clearfix">
+                <button class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Discard</button>
+                <button class="btn btn-primary pull-left" ng-click="createDatabase()"><i class="fa fa-save"></i>Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
