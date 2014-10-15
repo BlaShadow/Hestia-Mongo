@@ -18,14 +18,14 @@ gulp.task('lint', function() {
     	'app/admin/statics/js/services/*.js',
     	'app/admin/statics/js/controllers/*.js',
 	])
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'));
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
 });
 
 // Concatenate & Minify JS
 gulp.task('min_scripts', function() {
 	
-	var dest = 'app/admin/statics/js/min/';
+    var dest = 'app/admin/statics/js/min/';
 	
     return gulp.src([
     	'app/admin/statics/js/modules.js',
@@ -34,11 +34,11 @@ gulp.task('min_scripts', function() {
     	'app/admin/statics/js/services/*.js',
     	'app/admin/statics/js/controllers/*.js',
     ])
-        .pipe(concat('scripts.js'))
-        .pipe(gulp.dest(dest))
-        .pipe(rename('scripts.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest(dest));
+	.pipe(concat('scripts.js'))
+	.pipe(gulp.dest(dest))
+	.pipe(rename('scripts.min.js'))
+	.pipe(uglify())
+	.pipe(gulp.dest(dest));
 });
 
 gulp.task('scripts', function() {
