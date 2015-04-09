@@ -11,6 +11,23 @@
 	        
 	    return JSON.stringify(obj,null,4);
 	}
+	
+	this.parseData = function(bytes){
+		var finalLabel = "";
+		
+		if(bytes < 1024){
+			finalLabel = bytes.toFixed(2) + " bytes";
+		}else{
+			bytes = bytes / 1024;
+			if( bytes < 1024 ){
+				finalLabel = bytes.toFixed(2) + " KB";
+			}else{
+				finalLabel = (bytes / 1024).toFixed(2) + " MB";
+			}
+		}
+		
+		return finalLabel;
+	};
 
 	this.pager = function(pagerObj){
 		var current = pagerObj.current;
