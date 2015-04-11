@@ -26,6 +26,9 @@ function($scope,$route,$routeParams,$http,Util,DatabaseService){
 
 	$scope.pretty = Util.parse;
 
+	/** util function to show data in a better way **/
+	$scope.parseData = Util.parseData;
+
 	$scope.breadcrumbs = [
 		{"active":false,'value':'Home',"href":"/"},
 		{"active":false,'value':'Hosts',"href":"/hosts"},

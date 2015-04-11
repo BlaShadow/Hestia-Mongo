@@ -101,9 +101,9 @@
                         		[[ item.name ]]
                         	</a>
                         </td>
-                        <td> [[ item.stats.dataSize ]] </td>
+                        <td> [[ parseData(item.stats.dataSize) ]] </td>
                         <td>
-                        	<span class="badge bg-red">[[ item.stats.storageSize ]]</span>
+                        	<span class="badge bg-red">[[ parseData(item.stats.storageSize) ]]</span>
                         </td>
                         <td>[[ item.stats.collections ]]</td>
                     </tr>

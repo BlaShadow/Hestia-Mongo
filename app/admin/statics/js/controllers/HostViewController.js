@@ -21,6 +21,9 @@ function($scope,$http,$routeParams,Util,HostService,DatabaseService){
 
 	$scope.pretty = Util.parse;
 
+	/** util function to show data in a better way **/
+	$scope.parseData = Util.parseData;
+
 	$scope.collapse = function(target){
 		
 		var element = jQuery(target,document);

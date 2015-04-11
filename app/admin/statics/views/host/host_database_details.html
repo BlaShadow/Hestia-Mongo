@@ -25,9 +25,9 @@
                         </tr>
                         <tr>
                             <th>Storage Size</th>
-                            <td>[[ dbInfo.stats.storageSize ]]</td>
+                            <td>[[ parseData(dbInfo.stats.storageSize) ]]</td>
                             <th>AvgObjSize</th>
-                            <td>[[ dbInfo.stats.avgObjSize ]]</td>
+                            <td>[[ parseData(dbInfo.stats.avgObjSize) ]]</td>
                         </tr>
                         <tr>
                             <th>OK</th>
@@ -93,9 +93,12 @@
                         </td>
                         <td>
                             <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="[[ (item.stats.storageSize / totalSize) * 100.0 ]]" aria-valuemin="0" aria-valuemax="100" style="width: [[ (item.stats.storageSize / totalSize) * 100.0 ]]%;">
-                                    [[ (item.stats.storageSize / totalSize) * 100.0 ]] % ( [[ item.stats.storageSize ]] )
-                                </div> 
+                                <div class="progress-bar" role="progressbar" 
+                                        aria-valuenow="[[ (item.stats.storageSize / totalSize) * 100.0 ]]" 
+                                        aria-valuemin="0" aria-valuemax="100" 
+                                        style="width: [[ (item.stats.storageSize / totalSize) * 100.0 ]]%;">
+                                    [[ (item.stats.storageSize / totalSize).toFixed(2) * 100.0 ]] % ( [[ ( parseData(item.stats.storageSize) ) ]] )
+                                </div>
                             </div> 
                         </td>
                         <td>
