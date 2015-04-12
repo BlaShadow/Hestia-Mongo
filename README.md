@@ -6,14 +6,15 @@ Mongo web admin interface
 
 Install
 ------
-1. install virtualenv
-2. create a virtual enviroment
+1. Install virtualenv
+
+2. Create a virtual enviroment
 
     ``` 
     virtualenv hestiaMongo 
     ```
     
-3. activate your enviroment
+3. Activate your enviroment
    ``` 
     cd hestiaMongo 
     source bin/activate
@@ -22,11 +23,20 @@ Install
     ``` 
     git clone http://irl_project source
     ```
-5. install dependency 
+5. Install dependency 
     ``` 
     cd source 
     pip install -r requeriments
     ```
+
+6. Run gulp (configure statics files)
+    ``` 
+    npm install
+    npm install -g gulp
+    gulp prod
+    ```
+
+
 
 Configure
 ---
