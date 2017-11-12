@@ -21,7 +21,7 @@ Install
     ```
 4. Download the project 
     ``` 
-    git clone http://irl_project source
+    git clone http://url_project source
     ```
 5. Install dependency 
     ``` 
@@ -42,11 +42,11 @@ Configure
 ---
 Open ```start_gunicorn``` and change those value to your current configuration.
 
-#####VENDIR: 
+**VENDIR**: 
 Virtual enviroment dir
 
 
-#####FLASKMAIN:
+**FLASKMAIN**:
 Source app 
 
 Then ``` ./start_gunicorn ```
@@ -60,8 +60,8 @@ default user : root qwerty
 
 *Some Screenshots*
 ---------
-![](/screenshots/Hestia___Dashboard 3.png?raw=true)
-![](/screenshots/Hestia___Dashboard 2.png?raw=true)
+![](https://raw.githubusercontent.com/BlaShadow/Hestia-Mongo/master/screenshots/Hestia___Dashboard%202.png)
+![](https://raw.githubusercontent.com/BlaShadow/Hestia-Mongo/master/screenshots/Hestia___Dashboard%203.png)
 ![](/screenshots/Hestia___Dashboard.png?raw=true)
 ![](/screenshots/Admin_Hestia.png?raw=true)
 
